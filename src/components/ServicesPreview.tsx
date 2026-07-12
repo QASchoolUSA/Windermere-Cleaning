@@ -25,7 +25,12 @@ export function ServicesPreview() {
         <ul className="mt-14 divide-y divide-[color:var(--line)] border-y border-[color:var(--line)]">
           {services.map((service, i) => (
             <Reveal key={service.slug} delay={i * 0.05}>
-              <li className="group grid gap-6 py-8 md:grid-cols-12 md:items-center">
+              <li className="group relative grid gap-6 py-8 md:grid-cols-12 md:items-center">
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="absolute inset-0 z-0"
+                  aria-label={`View details for ${service.name}`}
+                />
                 <div className="relative aspect-[4/3] overflow-hidden md:col-span-4">
                   <Image
                     src={service.image}
@@ -36,20 +41,17 @@ export function ServicesPreview() {
                   />
                 </div>
                 <div className="md:col-span-5">
-                  <h3 className="font-display text-2xl text-navy md:text-3xl">
+                  <h3 className="font-display text-2xl text-navy transition-colors group-hover:text-navy-soft md:text-3xl">
                     {service.name}
                   </h3>
                   <p className="mt-3 text-[0.95rem] leading-relaxed text-muted">
                     {service.summary}
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-3 md:col-span-3 md:justify-end">
-                  <Link
-                    href={`/services/${service.slug}`}
-                    className="link-underline text-[0.72rem] uppercase tracking-[0.14em] text-navy"
-                  >
+                <div className="relative z-10 flex flex-wrap items-center gap-3 md:col-span-3 md:justify-end">
+                  <span className="link-underline text-[0.72rem] uppercase tracking-[0.14em] text-navy pointer-events-none">
                     Details
-                  </Link>
+                  </span>
                   <Link
                     href={`/book?service=${service.slug}`}
                     className="btn-primary !py-2.5 !px-4"

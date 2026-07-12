@@ -36,29 +36,29 @@ export default function ServicesPage() {
         <div className="mt-16 grid gap-10 md:grid-cols-2">
           {services.map((service, i) => (
             <Reveal key={service.slug} delay={i * 0.05}>
-              <article>
-                <Link href={`/services/${service.slug}`} className="group block">
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={service.image}
-                      alt={service.imageAlt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover transition duration-700 group-hover:scale-[1.03]"
-                    />
-                  </div>
-                  <h2 className="mt-5 font-display text-3xl text-navy">
-                    {service.name}
-                  </h2>
-                  <p className="mt-3 text-muted">{service.summary}</p>
-                </Link>
-                <div className="mt-4 flex gap-4">
-                  <Link
-                    href={`/services/${service.slug}`}
-                    className="link-underline text-[0.72rem] uppercase tracking-[0.14em] text-navy"
-                  >
+              <article className="group relative">
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="absolute inset-0 z-0"
+                  aria-label={`View details for ${service.name}`}
+                />
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={service.imageAlt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transition duration-700 group-hover:scale-[1.03]"
+                  />
+                </div>
+                <h2 className="mt-5 font-display text-3xl text-navy transition-colors group-hover:text-navy-soft">
+                  {service.name}
+                </h2>
+                <p className="mt-3 text-muted">{service.summary}</p>
+                <div className="relative z-10 mt-4 flex gap-4">
+                  <span className="link-underline text-[0.72rem] uppercase tracking-[0.14em] text-navy pointer-events-none">
                     Learn more
-                  </Link>
+                  </span>
                   <Link
                     href={`/book?service=${service.slug}`}
                     className="link-underline text-[0.72rem] uppercase tracking-[0.14em] text-brass"
