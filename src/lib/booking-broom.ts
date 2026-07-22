@@ -1,5 +1,6 @@
 import type { BookingPayload } from "./validations";
 import { services } from "./content/services";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 /**
  * Booking Broom public API client.
@@ -11,17 +12,41 @@ export type BookingBroomResult = {
   message?: string;
 };
 
+function readEnv(name: string): string | undefined {
+  const fromProcess = process.env[name];
+  if (fromProcess) return fromProcess;
+
+  try {
+    const { env } = getCloudflareContext();
+    const fromWorker = env[name as keyof typeof env];
+    if (typeof fromWorker === "string") return fromWorker;
+  } catch {
+    // Not running inside the Cloudflare worker (e.g. next dev).
+  }
+
+  return undefined;
+}
+
 function getConfig() {
+  const apiKey = readEnv("BOOKING_BROOM_API_KEY") || "";
+  const explicitMode = readEnv("BOOKING_BROOM_MODE");
+  const mode =
+    explicitMode === "mock" || explicitMode === "live"
+      ? explicitMode
+      : apiKey
+        ? "live"
+        : "mock";
+
   return {
-    mode: (process.env.BOOKING_BROOM_MODE || "mock") as "mock" | "live",
+    mode: mode as "mock" | "live",
     baseUrl: (
-      process.env.BOOKING_BROOM_BASE_URL ||
-      process.env.BOOKING_BROOM_URL ||
+      readEnv("BOOKING_BROOM_BASE_URL") ||
+      readEnv("BOOKING_BROOM_URL") ||
       "https://bookings.kedrik.com"
     ).replace(/\/$/, ""),
-    path: process.env.BOOKING_BROOM_BOOKINGS_PATH || "/api/bookings",
-    apiKey: process.env.BOOKING_BROOM_API_KEY || "",
-    siteSlug: process.env.BOOKING_BROOM_SITE_SLUG || "windermere",
+    path: readEnv("BOOKING_BROOM_BOOKINGS_PATH") || "/api/bookings",
+    apiKey,
+    siteSlug: readEnv("BOOKING_BROOM_SITE_SLUG") || "windermere",
   };
 }
 
