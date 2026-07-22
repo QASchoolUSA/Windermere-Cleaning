@@ -1,15 +1,9 @@
 import type { BookingPayload } from "./validations";
+import { services } from "./content/services";
 
 /**
- * Booking Broom HTTP client.
- * Adjust BOOKING_BROOM_* env vars when the live API contract is provided.
- *
- * Expected outbound body (v1 assumption — map in createBooking if needed):
- * {
- *   source: "windermere-cleaning",
- *   service, estimateCents, inputs,
- *   customer, schedule, address, notes?, attribution?
- * }
+ * Booking Broom public API client.
+ * POSTs { site_slug, api_key, customer_name, ... } to /api/bookings.
  */
 export type BookingBroomResult = {
   ok: boolean;
@@ -21,10 +15,54 @@ function getConfig() {
   return {
     mode: (process.env.BOOKING_BROOM_MODE || "mock") as "mock" | "live",
     baseUrl: (
-      process.env.BOOKING_BROOM_BASE_URL || "https://bookings.kedrik.com"
+      process.env.BOOKING_BROOM_BASE_URL ||
+      process.env.BOOKING_BROOM_URL ||
+      "https://bookings.kedrik.com"
     ).replace(/\/$/, ""),
     path: process.env.BOOKING_BROOM_BOOKINGS_PATH || "/api/bookings",
     apiKey: process.env.BOOKING_BROOM_API_KEY || "",
+    siteSlug: process.env.BOOKING_BROOM_SITE_SLUG || "windermere",
+  };
+}
+
+function formatUsdFromCents(cents: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(cents / 100);
+}
+
+function toBookingBroomBody(payload: BookingPayload, config: ReturnType<typeof getConfig>) {
+  const serviceName =
+    services.find((s) => s.slug === payload.quote.service)?.name ??
+    payload.quote.service;
+
+  const addressParts = [
+    payload.address.line1,
+    payload.address.line2,
+    `${payload.address.city}, ${payload.address.state} ${payload.address.zip}`,
+  ].filter(Boolean);
+
+  const noteParts = [
+    `Estimate ${formatUsdFromCents(payload.estimateCents)}`,
+    `Frequency: ${payload.quote.frequency}`,
+    payload.quote.addons.length
+      ? `Add-ons: ${payload.quote.addons.join(", ")}`
+      : null,
+    payload.notes?.trim() || null,
+  ].filter(Boolean);
+
+  return {
+    site_slug: config.siteSlug,
+    api_key: config.apiKey,
+    customer_name: payload.customer.name,
+    email: payload.customer.email,
+    phone: payload.customer.phone,
+    address: addressParts.join(", "),
+    service_type: serviceName,
+    preferred_date: payload.schedule.preferredDate,
+    preferred_time: payload.schedule.timeWindow,
+    notes: noteParts.join(" · "),
   };
 }
 
@@ -32,18 +70,7 @@ export async function createBooking(
   payload: BookingPayload,
 ): Promise<BookingBroomResult> {
   const config = getConfig();
-
-  const body = {
-    source: "windermere-cleaning",
-    service: payload.quote.service,
-    estimateCents: payload.estimateCents,
-    inputs: payload.quote,
-    customer: payload.customer,
-    schedule: payload.schedule,
-    address: payload.address,
-    notes: payload.notes,
-    attribution: payload.attribution,
-  };
+  const body = toBookingBroomBody(payload, config);
 
   if (config.mode === "mock") {
     console.info("[booking-broom:mock]", JSON.stringify(body, null, 2));
@@ -54,18 +81,21 @@ export async function createBooking(
     };
   }
 
-  const url = `${config.baseUrl}${config.path.startsWith("/") ? config.path : `/${config.path}`}`;
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  };
-  if (config.apiKey) {
-    headers.Authorization = `Bearer ${config.apiKey}`;
+  if (!config.apiKey) {
+    console.error("[booking-broom] BOOKING_BROOM_API_KEY is not set");
+    return {
+      ok: false,
+      message: "Booking is not configured. Please call us.",
+    };
   }
 
+  const url = `${config.baseUrl}${config.path.startsWith("/") ? config.path : `/${config.path}`}`;
   const res = await fetch(url, {
     method: "POST",
-    headers,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
     body: JSON.stringify(body),
   });
 
@@ -80,13 +110,14 @@ export async function createBooking(
 
   const data = (await res.json().catch(() => ({}))) as {
     id?: string;
+    booking_id?: string;
     bookingId?: string;
     message?: string;
   };
 
   return {
     ok: true,
-    id: data.id || data.bookingId,
+    id: data.id || data.booking_id || data.bookingId,
     message: data.message || "Booking received.",
   };
 }
