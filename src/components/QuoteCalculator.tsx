@@ -4,13 +4,15 @@ import { useMemo, useState, useEffect, type ReactNode } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { services, type ServiceSlug } from "@/lib/content/services";
 import {
-  ADDON_OPTIONS,
-  SQFT_OPTIONS,
+  DEFAULT_PRICING_CONFIG,
+  addonOptions,
   calculateQuoteCents,
   formatUsdFromCents,
   frequencyAllowed,
+  sqftOptions,
   type AddonId,
   type Frequency,
+  type PricingConfig,
   type PropertyType,
   type QuoteInputs,
   type SqftBand,
@@ -21,8 +23,10 @@ const STEPS = ["Service", "Property", "Details", "Quote"] as const;
 
 export function QuoteCalculator({
   initialService,
+  config = DEFAULT_PRICING_CONFIG,
 }: {
   initialService?: string;
+  config?: PricingConfig;
 }) {
   const reduce = useReducedMotion();
   const defaultService =
@@ -46,14 +50,19 @@ export function QuoteCalculator({
       setInputs((prev) => ({
         ...prev,
         service: initialService as ServiceSlug,
-        frequency: frequencyAllowed(initialService as ServiceSlug)
+        frequency: frequencyAllowed(initialService as ServiceSlug, config)
           ? prev.frequency
           : "one-time",
       }));
     }
-  }, [initialService]);
+  }, [initialService, config]);
 
-  const estimateCents = useMemo(() => calculateQuoteCents(inputs), [inputs]);
+  const estimateCents = useMemo(
+    () => calculateQuoteCents(inputs, config),
+    [inputs, config],
+  );
+  const addons = useMemo(() => addonOptions(config), [config]);
+  const sqftBands = useMemo(() => sqftOptions(config), [config]);
   const serviceName =
     services.find((s) => s.slug === inputs.service)?.name ?? "Cleaning";
 
@@ -127,7 +136,7 @@ export function QuoteCalculator({
                         setInputs((prev) => ({
                           ...prev,
                           service: s.slug,
-                          frequency: frequencyAllowed(s.slug)
+                          frequency: frequencyAllowed(s.slug, config)
                             ? prev.frequency
                             : "one-time",
                         }))
@@ -157,29 +166,23 @@ export function QuoteCalculator({
                 <div>
                   <p className="field-label">Property type</p>
                   <div className="grid grid-cols-3 gap-3">
-                    {(
-                      [
-                        ["house", "House"],
-                        ["apartment", "Apartment"],
-                        ["townhome", "Townhome"],
-                      ] as const
-                    ).map(([id, label]) => (
+                    {config.propertyMultipliers.map((option) => (
                       <button
-                        key={id}
+                        key={option.key}
                         type="button"
                         onClick={() =>
                           setInputs((p) => ({
                             ...p,
-                            propertyType: id as PropertyType,
+                            propertyType: option.key as PropertyType,
                           }))
                         }
                         className={`border px-3 py-3 text-sm ${
-                          inputs.propertyType === id
+                          inputs.propertyType === option.key
                             ? "border-brass bg-white text-navy"
                             : "border-[color:var(--line)] text-muted"
                         }`}
                       >
-                        {label}
+                        {option.label}
                       </button>
                     ))}
                   </div>
@@ -221,7 +224,7 @@ export function QuoteCalculator({
                 <div>
                   <p className="field-label">Approximate size</p>
                   <div className="grid gap-3 sm:grid-cols-2">
-                    {SQFT_OPTIONS.map((opt) => (
+                    {sqftBands.map((opt) => (
                       <button
                         key={opt.id}
                         type="button"
@@ -249,34 +252,27 @@ export function QuoteCalculator({
             panel(
               "details",
               <div className="space-y-8">
-                {frequencyAllowed(inputs.service) && (
+                {frequencyAllowed(inputs.service, config) && (
                   <div>
                     <p className="field-label">Frequency</p>
                     <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-                      {(
-                        [
-                          ["one-time", "One-time"],
-                          ["weekly", "Weekly"],
-                          ["bi-weekly", "Bi-weekly"],
-                          ["monthly", "Monthly"],
-                        ] as const
-                      ).map(([id, label]) => (
+                      {config.frequencyMultipliers.map((option) => (
                         <button
-                          key={id}
+                          key={option.key}
                           type="button"
                           onClick={() =>
                             setInputs((p) => ({
                               ...p,
-                              frequency: id as Frequency,
+                              frequency: option.key as Frequency,
                             }))
                           }
                           className={`border px-3 py-3 text-sm ${
-                            inputs.frequency === id
+                            inputs.frequency === option.key
                               ? "border-brass bg-white text-navy"
                               : "border-[color:var(--line)] text-muted"
                           }`}
                         >
-                          {label}
+                          {option.label}
                         </button>
                       ))}
                     </div>
@@ -285,7 +281,7 @@ export function QuoteCalculator({
                 <div>
                   <p className="field-label">Add-ons</p>
                   <div className="grid gap-3 sm:grid-cols-2">
-                    {ADDON_OPTIONS.map((opt) => {
+                    {addons.map((opt) => {
                       const on = inputs.addons.includes(opt.id);
                       return (
                         <button

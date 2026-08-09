@@ -3,6 +3,7 @@ import { bookingSchema } from "@/lib/validations";
 import { createBooking } from "@/lib/booking-broom";
 import { calculateQuoteCents } from "@/lib/pricing";
 import type { QuoteInputs } from "@/lib/pricing";
+import { getPricingConfig } from "@/lib/pricing-config";
 
 export async function POST(request: Request) {
   try {
@@ -21,7 +22,9 @@ export async function POST(request: Request) {
     }
 
     const data = parsed.data;
-    const recomputed = calculateQuoteCents(data.quote as QuoteInputs);
+    // The same config the calculator priced with, so a legitimate quote agrees.
+    const pricing = await getPricingConfig();
+    const recomputed = calculateQuoteCents(data.quote as QuoteInputs, pricing);
     // Allow small client drift but reject tampering
     if (Math.abs(recomputed - data.estimateCents) > 100) {
       return NextResponse.json(
@@ -30,10 +33,13 @@ export async function POST(request: Request) {
       );
     }
 
-    const result = await createBooking({
-      ...data,
-      estimateCents: recomputed,
-    });
+    const result = await createBooking(
+      {
+        ...data,
+        estimateCents: recomputed,
+      },
+      pricing,
+    );
 
     if (!result.ok) {
       return NextResponse.json(

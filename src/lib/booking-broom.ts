@@ -1,7 +1,7 @@
 import type { BookingPayload } from "./validations";
 import { services } from "./content/services";
-import { ADDON_OPTIONS, SQFT_OPTIONS } from "./pricing";
-import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { DEFAULT_PRICING_CONFIG, type PricingConfig } from "./pricing";
+import { readEnv } from "./env";
 
 /**
  * Booking Broom public API client.
@@ -12,21 +12,6 @@ export type BookingBroomResult = {
   id?: string;
   message?: string;
 };
-
-function readEnv(name: string): string | undefined {
-  const fromProcess = process.env[name];
-  if (fromProcess) return fromProcess;
-
-  try {
-    const { env } = getCloudflareContext();
-    const fromWorker = env[name as keyof typeof env];
-    if (typeof fromWorker === "string") return fromWorker;
-  } catch {
-    // Not running inside the Cloudflare worker (e.g. next dev).
-  }
-
-  return undefined;
-}
 
 function getConfig() {
   const apiKey = readEnv("BOOKING_BROOM_API_KEY") || "";
@@ -51,7 +36,11 @@ function getConfig() {
   };
 }
 
-function toBookingBroomBody(payload: BookingPayload, config: ReturnType<typeof getConfig>) {
+function toBookingBroomBody(
+  payload: BookingPayload,
+  config: ReturnType<typeof getConfig>,
+  pricing: PricingConfig,
+) {
   const serviceName =
     services.find((s) => s.slug === payload.quote.service)?.name ??
     payload.quote.service;
@@ -76,7 +65,9 @@ function toBookingBroomBody(payload: BookingPayload, config: ReturnType<typeof g
     property: {
       bedrooms: payload.quote.bedrooms,
       bathrooms: payload.quote.bathrooms,
-      size_label: SQFT_OPTIONS.find((o) => o.id === payload.quote.sqftBand)?.label,
+      size_label: pricing.sqftMultipliers.find(
+        (band) => band.key === payload.quote.sqftBand,
+      )?.label,
       home_type: payload.quote.propertyType,
     },
     quote: {
@@ -84,10 +75,10 @@ function toBookingBroomBody(payload: BookingPayload, config: ReturnType<typeof g
       currency: "USD",
       frequency: payload.quote.frequency,
       add_ons: payload.quote.addons.map((id) => {
-        const addon = ADDON_OPTIONS.find((a) => a.id === id);
+        const addon = pricing.addonCents.find((a) => a.key === id);
         return {
           label: addon?.label ?? id,
-          price: addon ? Number(addon.priceLabel.replace(/[^0-9.]/g, "")) : undefined,
+          price: addon ? addon.cents / 100 : undefined,
         };
       }),
       payment_terms: "Due after cleaning is complete",
@@ -97,9 +88,10 @@ function toBookingBroomBody(payload: BookingPayload, config: ReturnType<typeof g
 
 export async function createBooking(
   payload: BookingPayload,
+  pricing: PricingConfig = DEFAULT_PRICING_CONFIG,
 ): Promise<BookingBroomResult> {
   const config = getConfig();
-  const body = toBookingBroomBody(payload, config);
+  const body = toBookingBroomBody(payload, config, pricing);
 
   if (config.mode === "mock") {
     console.info("[booking-broom:mock]", JSON.stringify(body, null, 2));

@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { QuoteCalculator } from "@/components/QuoteCalculator";
 import { createPageMetadata } from "@/lib/seo";
+import { getPricingConfig } from "@/lib/pricing-config";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Free Cleaning Quote & Book Online",
@@ -22,6 +23,7 @@ export default async function BookPage({
   searchParams: Promise<{ service?: string }>;
 }) {
   const params = await searchParams;
+  const pricing = await getPricingConfig();
 
   return (
     <div className="relative bg-ivory pt-28 pb-20">
@@ -37,7 +39,7 @@ export default async function BookPage({
         <div className="absolute inset-0 bg-gradient-to-b from-ivory via-ivory/90 to-ivory" />
       </div>
       <div className="container-site max-w-3xl">
-        <QuoteCalculator initialService={params.service} />
+        <QuoteCalculator initialService={params.service} config={pricing} />
       </div>
     </div>
   );
