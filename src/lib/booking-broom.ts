@@ -1,5 +1,6 @@
 import type { BookingPayload } from "./validations";
 import { services } from "./content/services";
+import { ADDON_OPTIONS, SQFT_OPTIONS } from "./pricing";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 /**
@@ -50,13 +51,6 @@ function getConfig() {
   };
 }
 
-function formatUsdFromCents(cents: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(cents / 100);
-}
-
 function toBookingBroomBody(payload: BookingPayload, config: ReturnType<typeof getConfig>) {
   const serviceName =
     services.find((s) => s.slug === payload.quote.service)?.name ??
@@ -66,15 +60,6 @@ function toBookingBroomBody(payload: BookingPayload, config: ReturnType<typeof g
     payload.address.line1,
     payload.address.line2,
     `${payload.address.city}, ${payload.address.state} ${payload.address.zip}`,
-  ].filter(Boolean);
-
-  const noteParts = [
-    `Estimate ${formatUsdFromCents(payload.estimateCents)}`,
-    `Frequency: ${payload.quote.frequency}`,
-    payload.quote.addons.length
-      ? `Add-ons: ${payload.quote.addons.join(", ")}`
-      : null,
-    payload.notes?.trim() || null,
   ].filter(Boolean);
 
   return {
@@ -87,7 +72,26 @@ function toBookingBroomBody(payload: BookingPayload, config: ReturnType<typeof g
     service_type: serviceName,
     preferred_date: payload.schedule.preferredDate,
     preferred_time: payload.schedule.timeWindow,
-    notes: noteParts.join(" · "),
+    notes: payload.notes?.trim() || undefined,
+    property: {
+      bedrooms: payload.quote.bedrooms,
+      bathrooms: payload.quote.bathrooms,
+      size_label: SQFT_OPTIONS.find((o) => o.id === payload.quote.sqftBand)?.label,
+      home_type: payload.quote.propertyType,
+    },
+    quote: {
+      estimate: payload.estimateCents / 100,
+      currency: "USD",
+      frequency: payload.quote.frequency,
+      add_ons: payload.quote.addons.map((id) => {
+        const addon = ADDON_OPTIONS.find((a) => a.id === id);
+        return {
+          label: addon?.label ?? id,
+          price: addon ? Number(addon.priceLabel.replace(/[^0-9.]/g, "")) : undefined,
+        };
+      }),
+      payment_terms: "Due after cleaning is complete",
+    },
   };
 }
 
