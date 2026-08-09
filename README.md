@@ -12,9 +12,9 @@ Luxury residential cleaning website for **Windermere Cleaning** (Windermere, FL)
 ## Develop
 
 ```bash
-npm install
+pnpm install
 cp .env.example .env.local
-npm run dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
@@ -40,6 +40,6 @@ Optional:
 
 ## Scripts
 
-- `npm run dev` — development
-- `npm run build` — production build
-- `npm run start` — start production server
+- `pnpm dev` — development
+- `pnpm build` — production build
+- `pnpm start` — start production server
