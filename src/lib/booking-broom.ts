@@ -16,15 +16,19 @@ export type BookingBroomResult = {
 function getConfig() {
   const apiKey = readEnv("BOOKING_BROOM_API_KEY") || "";
   const explicitMode = readEnv("BOOKING_BROOM_MODE");
-  const mode =
-    explicitMode === "mock" || explicitMode === "live"
-      ? explicitMode
-      : apiKey
-        ? "live"
-        : "mock";
+  const isProduction = process.env.NODE_ENV === "production";
+  /**
+   * Mock has to be asked for. Inferring it from a missing key silently dropped
+   * real bookings in production while still showing the customer a success page.
+   * Local development without a key still mocks, so nothing breaks there.
+   */
+  const mode: "mock" | "live" =
+    explicitMode === "mock" || (!isProduction && !apiKey && explicitMode !== "live")
+      ? "mock"
+      : "live";
 
   return {
-    mode: mode as "mock" | "live",
+    mode,
     baseUrl: (
       readEnv("BOOKING_BROOM_BASE_URL") ||
       readEnv("BOOKING_BROOM_URL") ||
@@ -34,6 +38,10 @@ function getConfig() {
     apiKey,
     siteSlug: readEnv("BOOKING_BROOM_SITE_SLUG") || "windermere",
   };
+}
+
+function hasAnyValue(record: Record<string, string | undefined> | undefined) {
+  return Boolean(record && Object.values(record).some(Boolean));
 }
 
 function toBookingBroomBody(
@@ -62,6 +70,9 @@ function toBookingBroomBody(
     preferred_date: payload.schedule.preferredDate,
     preferred_time: payload.schedule.timeWindow,
     notes: payload.notes?.trim() || undefined,
+    intent: "book",
+    // Already in Booking Broom's wire shape, captured by readAttribution().
+    attribution: hasAnyValue(payload.attribution) ? payload.attribution : undefined,
     property: {
       bedrooms: payload.quote.bedrooms,
       bathrooms: payload.quote.bathrooms,
@@ -94,6 +105,7 @@ export async function createBooking(
   const body = toBookingBroomBody(payload, config, pricing);
 
   if (config.mode === "mock") {
+    console.warn("[booking-broom:mock] booking NOT sent upstream");
     console.info("[booking-broom:mock]", JSON.stringify(body, null, 2));
     return {
       ok: true,
@@ -103,7 +115,9 @@ export async function createBooking(
   }
 
   if (!config.apiKey) {
-    console.error("[booking-broom] BOOKING_BROOM_API_KEY is not set");
+    console.error(
+      "[booking-broom] BOOKING_BROOM_API_KEY is not set — booking was NOT saved",
+    );
     return {
       ok: false,
       message: "Booking is not configured. Please call us.",
