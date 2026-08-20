@@ -70,7 +70,7 @@ function toBookingBroomBody(
     preferred_date: payload.schedule.preferredDate,
     preferred_time: payload.schedule.timeWindow,
     notes: payload.notes?.trim() || undefined,
-    intent: "book",
+    intent: payload.intent === "quote" ? "quote" : "book",
     // Already in Booking Broom's wire shape, captured by readAttribution().
     attribution: hasAnyValue(payload.attribution) ? payload.attribution : undefined,
     property: {

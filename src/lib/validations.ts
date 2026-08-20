@@ -35,6 +35,7 @@ export const bookingSchema = z.object({
     zip: z.string().trim().regex(/^\d{5}(-\d{4})?$/),
   }),
   notes: z.string().trim().max(2000).optional(),
+  intent: z.enum(["quote", "book"]).optional(),
   attribution: z
     .object({
       utm_source: z.string().optional(),
