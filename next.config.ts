@@ -6,4 +6,10 @@ const nextConfig: NextConfig = {
 
 export default nextConfig;
 
-import("@opennextjs/cloudflare").then((m) => m.initOpenNextCloudflareForDev());
+// Only for local `next dev` — do not run during CI / OpenNext production builds
+// (remote bindings would otherwise hit Cloudflare edge-preview and fail the build).
+if (process.env.NODE_ENV === "development") {
+  import("@opennextjs/cloudflare").then((m) =>
+    m.initOpenNextCloudflareForDev()
+  );
+}

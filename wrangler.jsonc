@@ -29,18 +29,14 @@
 	},
 	"kv_namespaces": [
 		{
+			// Create KV in the same Cloudflare account as Workers Builds, then paste the id.
+			// CF namespace title suggestion: BOOKING_OUTBOX_WINDERMERE
 			"binding": "BOOKING_OUTBOX",
-			"id": "REPLACE_WITH_BOOKING_OUTBOX_KV_ID",
-			"preview_id": "REPLACE_WITH_BOOKING_OUTBOX_KV_PREVIEW_ID"
-		},
-		{
-			"binding": "BOOKING_OUTBOX_WINDERMERE",
-			"id": "7b8a998035d849c9a6974249718e10bf",
-			"remote": true
+			"id": "REPLACE_WITH_BOOKING_OUTBOX_KV_ID"
 		}
 	],
 	"vars": {
-		"BOOKING_BROOM_API_KEY": "bb_windermere_dev_key",
+		"NEXT_PUBLIC_SITE_URL": "https://windermerecleaning.com",
 		"BOOKING_BROOM_MODE": "live"
 	}
 }
