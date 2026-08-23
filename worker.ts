@@ -1,6 +1,6 @@
 // @ts-expect-error `.open-next/worker.js` is generated at build time
 import { default as handler } from "./.open-next/worker.js";
-import { processBookingOutbox, type OutboxEnv } from "./lib/booking-outbox";
+import { processBookingOutbox, type OutboxEnv } from "./src/lib/booking-outbox";
 
 export default {
   fetch: handler.fetch,

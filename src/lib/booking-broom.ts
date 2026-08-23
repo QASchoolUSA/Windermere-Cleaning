@@ -11,6 +11,9 @@ export type BookingBroomResult = {
   ok: boolean;
   id?: string;
   message?: string;
+  error?: string;
+  degraded?: boolean;
+  fallback?: "kv" | "telegram";
 };
 
 function getConfig() {
@@ -98,13 +101,15 @@ function toBookingBroomBody(
 }
 
 export async function createBooking(
-  payload: BookingBroomPayload,
+  payload: BookingPayload,
+  pricing: PricingConfig = DEFAULT_PRICING_CONFIG,
 ): Promise<BookingBroomResult> {
-  const config = await getConfig();
+  const config = getConfig();
+  const body = toBookingBroomBody(payload, config, pricing);
   const idempotencyKey =
     `lead_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
   const wirePayload: Record<string, unknown> = {
-    ...payload,
+    ...body,
     idempotency_key: idempotencyKey,
   };
 
@@ -130,24 +135,31 @@ export async function createBooking(
     };
   }
 
+  if (config.mode === "mock") {
+    console.warn("[booking-broom:mock] booking NOT sent upstream");
+    console.info("[booking-broom:mock]", JSON.stringify(wirePayload, null, 2));
+    return {
+      ok: true,
+      id: `mock_${Date.now()}`,
+      message: "Booking received (mock mode).",
+    };
+  }
+
   if (!config.apiKey) {
     console.error("[booking-broom] BOOKING_BROOM_API_KEY is not set");
     return fallback("Booking is not configured");
   }
 
   try {
-    const res = await fetch(`${config.baseUrl}/api/bookings`, {
+    const path = config.path.startsWith("/") ? config.path : `/${config.path}`;
+    const res = await fetch(`${config.baseUrl}${path}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
         "Idempotency-Key": idempotencyKey,
       },
-      body: JSON.stringify({
-        site_slug: config.siteSlug,
-        api_key: config.apiKey,
-        ...wirePayload,
-      }),
+      body: JSON.stringify(wirePayload),
     });
 
     if (!res.ok) {
@@ -166,12 +178,13 @@ export async function createBooking(
     const data = (await res.json().catch(() => ({}))) as {
       id?: string;
       booking_id?: string;
+      bookingId?: string;
       message?: string;
     };
 
     return {
       ok: true,
-      id: data.id || data.booking_id,
+      id: data.id || data.booking_id || data.bookingId,
       message: data.message || "Booking received.",
     };
   } catch (error) {
