@@ -40,7 +40,6 @@
 		}
 	],
 	"vars": {
-		"BOOKING_BROOM_SITE_SLUG": "windermere",
 		"BOOKING_BROOM_API_KEY": "bb_windermere_dev_key",
 		"BOOKING_BROOM_MODE": "live"
 	}

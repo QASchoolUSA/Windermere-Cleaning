@@ -36,7 +36,7 @@ function getConfig() {
     ).replace(/\/$/, ""),
     path: readEnv("BOOKING_BROOM_BOOKINGS_PATH") || "/api/bookings",
     apiKey,
-    siteSlug: readEnv("BOOKING_BROOM_SITE_SLUG") || "windermere",
+    siteSlug: "windermere",
   };
 }
 

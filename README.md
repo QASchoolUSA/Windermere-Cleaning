@@ -27,7 +27,7 @@ Set in `.env.local` (see `.env.example`):
 - `BOOKING_BROOM_MODE=live` — POST to Booking Broom
 - `# BOOKING_BROOM_URL optional; defaults to https://app.bookingbroom.com`
 - `BOOKING_BROOM_API_KEY=bb_windermere_dev_key` (or your production key)
-- `BOOKING_BROOM_SITE_SLUG=windermere`
+- Site slug hardcoded to `windermere` (no `BOOKING_BROOM_SITE_SLUG` env)
 
 The server maps the quote form into Booking Broom’s public API shape (`site_slug`, `api_key`, `customer_name`, etc.).
 
