@@ -37,5 +37,11 @@
 	"vars": {
 		"NEXT_PUBLIC_SITE_URL": "https://windermerecleaning.com",
 		"BOOKING_BROOM_MODE": "live"
-	}
+	},
+	"routes": [
+		{
+			"pattern": "windermerecleaning.com",
+			"custom_domain": true
+		}
+	]
 }
