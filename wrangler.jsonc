@@ -29,10 +29,9 @@
 	},
 	"kv_namespaces": [
 		{
-			// Create KV in the same Cloudflare account as Workers Builds, then paste the id.
-			// CF namespace title suggestion: BOOKING_OUTBOX_WINDERMERE
+			// CF namespace title: BOOKING_OUTBOX_WINDERMERE
 			"binding": "BOOKING_OUTBOX",
-			"id": "REPLACE_WITH_BOOKING_OUTBOX_KV_ID"
+			"id": "7b8a998035d849c9a6974249718e10bf"
 		}
 	],
 	"vars": {
