@@ -1,29 +1,47 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "main": ".open-next/worker.js",
-  "name": "windermere-cleaning",
-  "compatibility_date": "2026-07-15",
-  "compatibility_flags": ["nodejs_compat"],
-  "assets": {
-    "directory": ".open-next/assets",
-    "binding": "ASSETS"
-  },
-  "services": [
-    {
-      "binding": "WORKER_SELF_REFERENCE",
-      "service": "windermere-cleaning"
-    }
-  ],
-  "images": {
-    "binding": "IMAGES"
-  },
-  "observability": {
-    "enabled": true
-  },
-  "vars": {
-    "BOOKING_BROOM_URL": "https://bookings.kedrik.com",
-    "BOOKING_BROOM_SITE_SLUG": "windermere",
-    "BOOKING_BROOM_API_KEY": "bb_windermere_dev_key",
-    "BOOKING_BROOM_MODE": "live"
-  }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": "worker.ts",
+	"name": "windermere-cleaning",
+	"compatibility_date": "2026-07-15",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "windermere-cleaning"
+		}
+	],
+	"images": {
+		"binding": "IMAGES"
+	},
+	"observability": {
+		"enabled": true
+	},
+	"triggers": {
+		"crons": [
+			"*/5 * * * *"
+		]
+	},
+	"kv_namespaces": [
+		{
+			"binding": "BOOKING_OUTBOX",
+			"id": "REPLACE_WITH_BOOKING_OUTBOX_KV_ID",
+			"preview_id": "REPLACE_WITH_BOOKING_OUTBOX_KV_PREVIEW_ID"
+		},
+		{
+			"binding": "BOOKING_OUTBOX_WINDERMERE",
+			"id": "7b8a998035d849c9a6974249718e10bf",
+			"remote": true
+		}
+	],
+	"vars": {
+		"BOOKING_BROOM_SITE_SLUG": "windermere",
+		"BOOKING_BROOM_API_KEY": "bb_windermere_dev_key",
+		"BOOKING_BROOM_MODE": "live"
+	}
 }

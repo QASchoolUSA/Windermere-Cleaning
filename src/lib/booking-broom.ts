@@ -32,7 +32,7 @@ function getConfig() {
     baseUrl: (
       readEnv("BOOKING_BROOM_BASE_URL") ||
       readEnv("BOOKING_BROOM_URL") ||
-      "https://bookings.kedrik.com"
+      "https://app.bookingbroom.com"
     ).replace(/\/$/, ""),
     path: readEnv("BOOKING_BROOM_BOOKINGS_PATH") || "/api/bookings",
     apiKey,
@@ -98,61 +98,85 @@ function toBookingBroomBody(
 }
 
 export async function createBooking(
-  payload: BookingPayload,
-  pricing: PricingConfig = DEFAULT_PRICING_CONFIG,
+  payload: BookingBroomPayload,
 ): Promise<BookingBroomResult> {
-  const config = getConfig();
-  const body = toBookingBroomBody(payload, config, pricing);
+  const config = await getConfig();
+  const idempotencyKey =
+    `lead_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+  const wirePayload: Record<string, unknown> = {
+    ...payload,
+    idempotency_key: idempotencyKey,
+  };
 
-  if (config.mode === "mock") {
-    console.warn("[booking-broom:mock] booking NOT sent upstream");
-    console.info("[booking-broom:mock]", JSON.stringify(body, null, 2));
+  async function fallback(lastError: string): Promise<BookingBroomResult> {
+    const { captureFailedBookingForward } = await import("@/lib/booking-outbox");
+    const captured = await captureFailedBookingForward({
+      payload: wirePayload,
+      idempotencyKey,
+      lastError,
+    });
+    if (captured.captured) {
+      return {
+        ok: true,
+        degraded: true,
+        fallback: captured.via,
+        message: "Request received. We will confirm shortly.",
+      };
+    }
     return {
-      ok: true,
-      id: `mock_${Date.now()}`,
-      message: "Booking received (mock mode).",
+      ok: false,
+      message: "Unable to submit booking. Please try again or call us.",
+      error: captured.error || lastError,
     };
   }
 
   if (!config.apiKey) {
-    console.error(
-      "[booking-broom] BOOKING_BROOM_API_KEY is not set — booking was NOT saved",
-    );
-    return {
-      ok: false,
-      message: "Booking is not configured. Please call us.",
-    };
+    console.error("[booking-broom] BOOKING_BROOM_API_KEY is not set");
+    return fallback("Booking is not configured");
   }
 
-  const url = `${config.baseUrl}${config.path.startsWith("/") ? config.path : `/${config.path}`}`;
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(body),
-  });
+  try {
+    const res = await fetch(`${config.baseUrl}/api/bookings`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Idempotency-Key": idempotencyKey,
+      },
+      body: JSON.stringify({
+        site_slug: config.siteSlug,
+        api_key: config.apiKey,
+        ...wirePayload,
+      }),
+    });
 
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    console.error("[booking-broom] error", res.status, text);
-    return {
-      ok: false,
-      message: "Unable to submit booking. Please try again or call us.",
+    if (!res.ok) {
+      const responseText = await res.text().catch(() => "");
+      let upstream = responseText.slice(0, 300);
+      try {
+        const parsed = JSON.parse(responseText) as { error?: string };
+        if (parsed.error) upstream = parsed.error;
+      } catch {
+        // Keep raw body snippet.
+      }
+      console.error("[booking-broom] error", res.status, upstream);
+      return fallback(upstream || `HTTP ${res.status}`);
+    }
+
+    const data = (await res.json().catch(() => ({}))) as {
+      id?: string;
+      booking_id?: string;
+      message?: string;
     };
+
+    return {
+      ok: true,
+      id: data.id || data.booking_id,
+      message: data.message || "Booking received.",
+    };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("[booking-broom] forward error:", message);
+    return fallback(message);
   }
-
-  const data = (await res.json().catch(() => ({}))) as {
-    id?: string;
-    booking_id?: string;
-    bookingId?: string;
-    message?: string;
-  };
-
-  return {
-    ok: true,
-    id: data.id || data.booking_id || data.bookingId,
-    message: data.message || "Booking received.",
-  };
 }

@@ -52,6 +52,8 @@ export async function POST(request: Request) {
       ok: true,
       id: result.id,
       message: result.message,
+      degraded: result.degraded === true,
+      fallback: result.fallback,
     });
   } catch (error) {
     console.error("[api/bookings]", error);

@@ -21,7 +21,7 @@ export async function getPricingConfig(): Promise<PricingConfig> {
   const baseUrl = (
     readEnv("BOOKING_BROOM_BASE_URL") ||
     readEnv("BOOKING_BROOM_URL") ||
-    ""
+    "https://app.bookingbroom.com"
   ).replace(/\/$/, "");
   const apiKey = readEnv("BOOKING_BROOM_API_KEY");
   if (!baseUrl || !apiKey) return DEFAULT_PRICING_CONFIG;

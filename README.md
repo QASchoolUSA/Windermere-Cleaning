@@ -7,7 +7,7 @@ Luxury residential cleaning website for **Windermere Cleaning** (Windermere, FL)
 - Next.js (App Router) + TypeScript + Tailwind CSS
 - Framer Motion
 - Zod validation
-- Booking Broom HTTP integration (`bookings.kedrik.com`)
+- Booking Broom HTTP integration (`app.bookingbroom.com`)
 
 ## Develop
 
@@ -25,7 +25,7 @@ Set in `.env.local` (see `.env.example`):
 
 - `BOOKING_BROOM_MODE=mock` — logs the Booking Broom payload locally (default)
 - `BOOKING_BROOM_MODE=live` — POST to Booking Broom
-- `BOOKING_BROOM_BASE_URL=https://bookings.kedrik.com`
+- `# BOOKING_BROOM_URL optional; defaults to https://app.bookingbroom.com`
 - `BOOKING_BROOM_API_KEY=bb_windermere_dev_key` (or your production key)
 - `BOOKING_BROOM_SITE_SLUG=windermere`
 
