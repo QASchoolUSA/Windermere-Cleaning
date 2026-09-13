@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { QuoteInputs } from "@/lib/pricing";
 import { formatUsdFromCents } from "@/lib/pricing";
 import { services } from "@/lib/content/services";
@@ -8,6 +8,7 @@ import {
   readAttribution,
   trackBookingConversion,
 } from "@/components/analytics/Analytics";
+import { createSoftLeadTracker } from "@/lib/soft-lead";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -20,39 +21,106 @@ export function BookingForm({
   estimateCents: number;
   onBack: () => void;
 }) {
+  const softLead = useRef<ReturnType<typeof createSoftLeadTracker> | null>(null);
+  if (!softLead.current) {
+    softLead.current = createSoftLeadTracker();
+  }
+
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
   const [bookingId, setBookingId] = useState<string>();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [preferredDate, setPreferredDate] = useState("");
+  const [timeWindow, setTimeWindow] = useState("flexible");
+  const [line1, setLine1] = useState("");
+  const [line2, setLine2] = useState("");
+  const [city, setCity] = useState("Windermere");
+  const [zip, setZip] = useState("");
+  const [notes, setNotes] = useState("");
+
   const serviceName =
     services.find((s) => s.slug === quote.service)?.name ?? "Cleaning";
+
+  useEffect(() => {
+    const tracker = softLead.current;
+    return () => tracker?.dispose();
+  }, []);
+
+  useEffect(() => {
+    if (status === "success") return;
+    const address = [line1, line2, city, zip].filter(Boolean).join(", ");
+    const attribution = readAttribution();
+    softLead.current?.schedule({
+      customer_name: name || undefined,
+      email: email || undefined,
+      phone: phone || undefined,
+      address: address || undefined,
+      service_type: serviceName,
+      preferred_date: preferredDate || undefined,
+      preferred_time: timeWindow || undefined,
+      notes: notes || undefined,
+      intent: "book",
+      last_step: "contact",
+      attribution: Object.keys(attribution).length ? attribution : undefined,
+      property: {
+        bedrooms: quote.bedrooms,
+        bathrooms: quote.bathrooms,
+        home_type: quote.propertyType,
+        size_label: quote.sqftBand,
+      },
+      quote: {
+        estimate: estimateCents / 100,
+        currency: "USD",
+        frequency: quote.frequency,
+        payment_terms: "Due after cleaning is complete",
+      },
+    });
+  }, [
+    status,
+    name,
+    email,
+    phone,
+    preferredDate,
+    timeWindow,
+    line1,
+    line2,
+    city,
+    zip,
+    notes,
+    serviceName,
+    quote,
+    estimateCents,
+  ]);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("submitting");
     setError("");
 
-    const form = new FormData(e.currentTarget);
     const payload = {
       quote,
       estimateCents,
       customer: {
-        name: String(form.get("name") || ""),
-        email: String(form.get("email") || ""),
-        phone: String(form.get("phone") || ""),
+        name: name.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
       },
       schedule: {
-        preferredDate: String(form.get("preferredDate") || ""),
-        timeWindow: String(form.get("timeWindow") || "flexible"),
+        preferredDate,
+        timeWindow,
       },
       address: {
-        line1: String(form.get("line1") || ""),
-        line2: String(form.get("line2") || "") || undefined,
-        city: String(form.get("city") || "Windermere"),
+        line1: line1.trim(),
+        line2: line2.trim() || undefined,
+        city: city.trim() || "Windermere",
         state: "FL",
-        zip: String(form.get("zip") || ""),
+        zip: zip.trim(),
       },
-      notes: String(form.get("notes") || "") || undefined,
+      notes: notes.trim() || undefined,
       attribution: readAttribution(),
+      session_key: softLead.current?.sessionKey,
     };
 
     try {
@@ -116,7 +184,14 @@ export function BookingForm({
       <form onSubmit={onSubmit} className="mt-8 grid gap-5 md:grid-cols-2">
         <label className="md:col-span-1">
           <span className="field-label">Full name</span>
-          <input className="field" name="name" required autoComplete="name" />
+          <input
+            className="field"
+            name="name"
+            required
+            autoComplete="name"
+            value={name}
+            onChange={(e) => setName(e.currentTarget.value)}
+          />
         </label>
         <label>
           <span className="field-label">Email</span>
@@ -126,6 +201,8 @@ export function BookingForm({
             type="email"
             required
             autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.currentTarget.value)}
           />
         </label>
         <label>
@@ -136,15 +213,29 @@ export function BookingForm({
             type="tel"
             required
             autoComplete="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.currentTarget.value)}
           />
         </label>
         <label>
           <span className="field-label">Preferred date</span>
-          <input className="field" name="preferredDate" type="date" required />
+          <input
+            className="field"
+            name="preferredDate"
+            type="date"
+            required
+            value={preferredDate}
+            onChange={(e) => setPreferredDate(e.currentTarget.value)}
+          />
         </label>
         <label>
           <span className="field-label">Time window</span>
-          <select className="field" name="timeWindow" defaultValue="flexible">
+          <select
+            className="field"
+            name="timeWindow"
+            value={timeWindow}
+            onChange={(e) => setTimeWindow(e.currentTarget.value)}
+          >
             <option value="morning">Morning</option>
             <option value="afternoon">Afternoon</option>
             <option value="flexible">Flexible</option>
@@ -157,20 +248,29 @@ export function BookingForm({
             name="line1"
             required
             autoComplete="address-line1"
+            value={line1}
+            onChange={(e) => setLine1(e.currentTarget.value)}
           />
         </label>
         <label>
           <span className="field-label">Apt / suite (optional)</span>
-          <input className="field" name="line2" autoComplete="address-line2" />
+          <input
+            className="field"
+            name="line2"
+            autoComplete="address-line2"
+            value={line2}
+            onChange={(e) => setLine2(e.currentTarget.value)}
+          />
         </label>
         <label>
           <span className="field-label">City</span>
           <input
             className="field"
             name="city"
-            defaultValue="Windermere"
             required
             autoComplete="address-level2"
+            value={city}
+            onChange={(e) => setCity(e.currentTarget.value)}
           />
         </label>
         <label>
@@ -182,11 +282,18 @@ export function BookingForm({
             pattern="\d{5}(-\d{4})?"
             autoComplete="postal-code"
             placeholder="34786"
+            value={zip}
+            onChange={(e) => setZip(e.currentTarget.value)}
           />
         </label>
         <label className="md:col-span-2">
           <span className="field-label">Notes (optional)</span>
-          <textarea className="field min-h-[100px]" name="notes" />
+          <textarea
+            className="field min-h-[100px]"
+            name="notes"
+            value={notes}
+            onChange={(e) => setNotes(e.currentTarget.value)}
+          />
         </label>
 
         {status === "error" && (

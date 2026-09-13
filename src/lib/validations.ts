@@ -36,6 +36,7 @@ export const bookingSchema = z.object({
   }),
   notes: z.string().trim().max(2000).optional(),
   intent: z.enum(["quote", "book"]).optional(),
+  session_key: z.string().trim().min(8).max(128).optional(),
   attribution: z
     .object({
       utm_source: z.string().optional(),

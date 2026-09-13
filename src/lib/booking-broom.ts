@@ -97,6 +97,7 @@ function toBookingBroomBody(
       }),
       payment_terms: "Due after cleaning is complete",
     },
+    ...(payload.session_key ? { session_key: payload.session_key } : {}),
   };
 }
 
