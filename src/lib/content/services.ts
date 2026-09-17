@@ -25,14 +25,13 @@ export const services: Service[] = [
     slug: "house-cleaning",
     name: "House Cleaning",
     shortName: "House",
-    headline: "Estate-level house cleaning in Windermere",
+    headline: "House cleaning for Windermere homes",
     summary:
-      "Recurring and one-time house cleaning tailored to luxury Windermere residences—kitchens, baths, living spaces, and quiet attention to detail.",
+      "Weekly or one-time house cleaning for Windermere residences—kitchens, baths, living spaces, and the quiet detail that keeps an estate feeling settled.",
     description:
-      "Windermere Cleaning provides professional house cleaning for single-family homes and estates in Windermere, FL. Our teams follow a meticulous checklist designed for high-end finishes: stone and wood surfaces, designer fixtures, and open living spaces. Choose weekly, bi-weekly, monthly, or one-time service.",
+      "We clean single-family homes and estates in Windermere, FL. Teams know how to treat stone, wood, and designer fixtures without rushing through open living spaces. Choose weekly, bi-weekly, monthly, or a one-time visit.",
     image: "/images/house-cleaning.jpg",
-    imageAlt:
-      "Bright luxury Windermere FL home kitchen ready for professional house cleaning",
+    imageAlt: "Bright kitchen in a Windermere home after cleaning",
     keywords: [
       "house cleaning Windermere FL",
       "home cleaning Windermere",
@@ -49,12 +48,12 @@ export const services: Service[] = [
       {
         question: "How much does house cleaning cost in Windermere, FL?",
         answer:
-          "House cleaning in Windermere typically starts based on bedrooms, bathrooms, and square footage. Use our free quote calculator for an instant estimate; final pricing is confirmed when you book.",
+          "Price depends on bedrooms, bathrooms, and square footage. Use the free quote form for an estimate; we confirm the final total when you book.",
       },
       {
         question: "Do you clean luxury and estate homes?",
         answer:
-          "Yes. We specialize in Windermere and nearby estate communities, with discreet scheduling and care for premium finishes.",
+          "Yes. Most of our work is in Windermere and nearby estate communities. We schedule discreetly and take care with premium finishes.",
       },
     ],
   },
@@ -62,14 +61,13 @@ export const services: Service[] = [
     slug: "apartment-cleaning",
     name: "Apartment Cleaning",
     shortName: "Apartment",
-    headline: "Precise apartment cleaning, condo-ready",
+    headline: "Apartment and condo cleaning near Windermere",
     summary:
-      "Efficient, thorough apartment and condo cleaning for Windermere-area residences—ideal for busy professionals and seasonal homes.",
+      "Thorough apartment and condo cleaning for Windermere-area residences—built for busy schedules and smaller footprints.",
     description:
-      "Apartment cleaning from Windermere Cleaning covers condos, townhomes, and apartment residences near Windermere, FL. We work efficiently in compact footprints without sacrificing detail—kitchens, baths, floors, and living areas left hotel-fresh.",
+      "We clean condos, townhomes, and apartments near Windermere, FL. Compact spaces get the same care as larger homes: kitchens, baths, floors, and living areas finished so the place feels ready when you walk in.",
     image: "/images/apartment-cleaning.jpg",
-    imageAlt:
-      "Modern apartment living space prepared for professional apartment cleaning near Windermere FL",
+    imageAlt: "Living room in a condo near Windermere after cleaning",
     keywords: [
       "apartment cleaning Windermere FL",
       "condo cleaning Windermere",
@@ -85,7 +83,7 @@ export const services: Service[] = [
       {
         question: "Can you clean apartments with building access rules?",
         answer:
-          "Yes. Share gate codes, parking instructions, and quiet hours when you book so our team arrives prepared and discreet.",
+          "Yes. Share gate codes, parking notes, and quiet hours when you book so the team arrives prepared and stays discreet.",
       },
     ],
   },
@@ -93,14 +91,13 @@ export const services: Service[] = [
     slug: "move-out-move-in-cleaning",
     name: "Move Out / Move In Cleaning",
     shortName: "Move-In / Out",
-    headline: "Move-ready homes, deposit-minded detail",
+    headline: "Move-in and move-out cleaning in Windermere",
     summary:
-      "Thorough move-out and move-in cleaning so Windermere properties show pristine—empty cabinets, appliances, baseboards, and floors.",
+      "Empty-home cleaning for Windermere moves—cabinets, appliances, baseboards, and floors so the property is ready for walkthroughs or new keys.",
     description:
-      "Our move-out and move-in cleaning prepares Windermere homes and apartments for new occupants or landlord walkthroughs. We focus on empty spaces: inside cabinets, appliances, closets, baseboards, and corners that everyday cleaning skips.",
+      "Move-out and move-in cleaning prepares Windermere homes and apartments for new occupants or landlord walkthroughs. We focus on empty spaces: inside cabinets, appliances, closets, baseboards, and corners that regular visits skip.",
     image: "/images/move-in-out.jpg",
-    imageAlt:
-      "Empty bright residential room prepared for move-out move-in cleaning in Windermere FL",
+    imageAlt: "Empty room ready for move-out cleaning in Windermere",
     keywords: [
       "move out cleaning Windermere FL",
       "move in cleaning Windermere",
@@ -116,7 +113,7 @@ export const services: Service[] = [
       {
         question: "Should the home be empty before move-out cleaning?",
         answer:
-          "Yes—empty or nearly empty homes allow us to clean cabinets, closets, and floors thoroughly. Share your keys or access plan when booking.",
+          "Yes—empty or nearly empty homes let us clean cabinets, closets, and floors properly. Share keys or access details when you book.",
       },
     ],
   },
@@ -124,14 +121,13 @@ export const services: Service[] = [
     slug: "post-construction-cleaning",
     name: "Post Construction Cleaning",
     shortName: "Post-Construction",
-    headline: "From job-site dust to show-ready",
+    headline: "Post-construction cleaning after Windermere renovations",
     summary:
-      "Post-construction and renovation cleaning that removes fine dust, adhesive residue, and debris so Windermere projects can be lived in or listed.",
+      "Cleaning after renovations and new builds—fine dust, adhesive residue, and debris cleared so the home can be lived in or listed.",
     description:
-      "Post-construction cleaning in Windermere, FL addresses the fine dust and residue left after renovations and new builds. We clean surfaces, fixtures, floors, and glass to a move-in or listing standard after your contractors finish.",
+      "After contractors finish in Windermere, FL, fine dust and residue linger on surfaces, fixtures, floors, and glass. We clean to a move-in or listing standard once the heavy construction work is done.",
     image: "/images/post-construction.jpg",
-    imageAlt:
-      "Renovated interior space ready for post-construction cleaning in Windermere Florida",
+    imageAlt: "Renovated room ready for post-construction cleaning",
     keywords: [
       "post construction cleaning Windermere FL",
       "renovation cleaning Windermere",
@@ -147,7 +143,7 @@ export const services: Service[] = [
       {
         question: "When should post-construction cleaning be scheduled?",
         answer:
-          "Book after major construction work is complete and debris is removed. Tell us if a rough clean already happened so we can scope a final detail clean.",
+          "Book after major construction is finished and debris is hauled out. Tell us if a rough clean already happened so we can plan a final detail pass.",
       },
     ],
   },
@@ -155,14 +151,13 @@ export const services: Service[] = [
     slug: "deep-cleaning",
     name: "Deep Cleaning",
     shortName: "Deep Clean",
-    headline: "A reset for overlooked details",
+    headline: "Deep cleaning when Windermere homes need a reset",
     summary:
-      "Deep cleaning for Windermere homes that need more than maintenance—baseboards, vents, grout-adjacent detail, and appliance exteriors.",
+      "A deeper visit for Windermere homes that need more than maintenance—baseboards, vents, bathroom detail, and kitchen buildup.",
     description:
-      "Deep cleaning goes beyond a standard visit. Windermere Cleaning focuses on buildup areas: baseboards, light fixtures within reach, vents, bathroom detail, and kitchen surfaces. Ideal seasonally, before guests, or after a long gap between cleans.",
+      "Deep cleaning goes beyond a regular visit. We spend extra time on buildup: baseboards, reachable light fixtures, vents, bathrooms, and kitchen surfaces. Useful seasonally, before guests, or after a long gap between cleans.",
     image: "/images/deep-cleaning.jpg",
-    imageAlt:
-      "Pristine modern kitchen after a professional deep cleaning in a Windermere FL home",
+    imageAlt: "Kitchen after a deep clean in a Windermere home",
     keywords: [
       "deep cleaning Windermere FL",
       "deep clean house Windermere",
@@ -178,7 +173,7 @@ export const services: Service[] = [
       {
         question: "How is deep cleaning different from regular house cleaning?",
         answer:
-          "Deep cleaning adds time and focus for buildup areas—baseboards, vents, detailed bathrooms, and kitchens—while regular visits maintain an already clean home.",
+          "Deep cleaning adds time for buildup—baseboards, vents, detailed bathrooms and kitchens. Regular visits keep an already clean home in good shape.",
       },
     ],
   },
@@ -186,14 +181,13 @@ export const services: Service[] = [
     slug: "event-cleaning",
     name: "Cleaning After Events / Celebrations",
     shortName: "After Events",
-    headline: "After the celebration, calm restored",
+    headline: "After-event cleaning for Windermere gatherings",
     summary:
-      "Post-event and celebration cleaning for Windermere gatherings—living spaces reset, kitchens cleared, and homes ready for the next morning.",
+      "Post-party cleanup for Windermere homes—living spaces reset, kitchens cleared, and the house calm again by morning.",
     description:
-      "Hosting in Windermere should end with ease. Our after-event cleaning resets living rooms, kitchens, dining areas, and baths after parties, holidays, and celebrations so you wake up to order—not leftovers and clutter.",
+      "Hosting should not end with a sink full of dishes. After parties, holidays, and celebrations we reset living rooms, kitchens, dining areas, and baths so you wake up to order instead of leftovers.",
     image: "/images/event-cleaning.jpg",
-    imageAlt:
-      "Elegant living and dining space prepared for post-event cleaning in Windermere FL",
+    imageAlt: "Dining room after post-event cleaning in Windermere",
     keywords: [
       "event cleaning Windermere FL",
       "party cleanup Windermere",
@@ -209,7 +203,7 @@ export const services: Service[] = [
       {
         question: "Can you clean the same night as our event?",
         answer:
-          "Often yes—share your event end time when you request a quote. Same-night and next-morning windows are both available based on schedule.",
+          "Often yes—tell us when the event ends when you request a quote. Same-night and next-morning windows both work, depending on the calendar.",
       },
     ],
   },
@@ -228,12 +222,12 @@ export const homeFaqs = [
   {
     question: "How do I get a free cleaning quote?",
     answer:
-      "Use our online quote calculator to select your service, property details, and add-ons. You’ll see an estimated quote instantly, then you can book if you’re ready.",
+      "Use the online quote form to pick your service, property details, and add-ons. You get an estimate right away, then you can book if you are ready.",
   },
   {
     question: "Can I book cleaning online after getting a quote?",
     answer:
-      "Yes. After your estimate, complete the booking form with your preferred date and address. Your request is sent to our booking system for confirmation.",
+      "Yes. After your estimate, fill in the booking form with your preferred date and address. We confirm the appointment once we review your request.",
   },
   {
     question: "What cleaning services do you offer?",

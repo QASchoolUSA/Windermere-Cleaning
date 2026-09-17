@@ -25,11 +25,12 @@ export default function ServicesPage() {
             Services
           </p>
           <h1 className="mt-3 max-w-3xl font-display text-5xl text-navy md:text-6xl">
-            Professional cleaning services in Windermere, FL
+            Cleaning services in Windermere, FL
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-muted">
-            Six focused services for estate homes, apartments, renovations, and
-            celebrations—each with a dedicated quote path.
+            Six services for homes, apartments, renovations, and gatherings.
+            Each has its own quote path so you can start with the visit you
+            need.
           </p>
         </Reveal>
 

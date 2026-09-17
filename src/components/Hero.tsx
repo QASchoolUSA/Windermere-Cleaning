@@ -11,7 +11,7 @@ export function Hero() {
     <section className="relative min-h-[100svh] overflow-hidden bg-navy">
       <Image
         src="/images/hero-estate.jpg"
-        alt="Luxury Windermere Florida estate home exterior at golden hour"
+        alt="Windermere home at sunset along a quiet street"
         fill
         priority
         sizes="100vw"
@@ -36,8 +36,8 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
         >
-          Discreet estate care for Windermere homes—precise cleaning, calm
-          scheduling, and a free online quote.
+          Quiet, careful cleaning for Windermere homes. Discreet scheduling,
+          respect for how you live, and a free online quote.
         </motion.p>
 
         <motion.div

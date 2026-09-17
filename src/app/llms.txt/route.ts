@@ -30,7 +30,7 @@ ${siteConfig.serviceArea.join(", ")}
 - Free quote & book: ${base}/book
 
 ## Booking
-Users can calculate a free estimated quote and submit a booking request at ${base}/book. Bookings are processed through the company's booking system for confirmation.
+Users can get a free estimated quote and submit a booking request at ${base}/book. We confirm appointments after reviewing each request.
 
 ## Contact
 Prefer email ${siteConfig.email} or the quote form on the website.

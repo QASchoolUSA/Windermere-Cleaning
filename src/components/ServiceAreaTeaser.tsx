@@ -9,7 +9,7 @@ export function ServiceAreaTeaser() {
       <div className="absolute inset-0">
         <Image
           src="/images/service-area.jpg"
-          alt="Calm lake landscape near Windermere Florida service area"
+          alt="Lake view near Windermere on a calm afternoon"
           fill
           sizes="100vw"
           className="object-cover opacity-40"
@@ -22,11 +22,11 @@ export function ServiceAreaTeaser() {
             Service area
           </p>
           <h2 className="mt-3 max-w-xl font-display text-4xl md:text-5xl">
-            Rooted in Windermere, FL
+            Based in Windermere, FL
           </h2>
           <p className="mt-4 max-w-lg text-limestone/85">
-            We serve Windermere and neighboring Orange County communities where
-            estate and lake living demand careful, consistent cleaning.
+            We clean in Windermere and nearby Orange County communities where
+            lake and estate living call for careful, consistent work.
           </p>
           <p className="mt-6 max-w-2xl text-sm leading-relaxed text-limestone/75">
             {siteConfig.serviceArea.join(" · ")}

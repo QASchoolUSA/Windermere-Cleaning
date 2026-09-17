@@ -10,11 +10,11 @@ export function QuoteCta() {
             Get your free cleaning quote
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-muted">
-            Estimate in minutes, then book when it fits—your request goes
-            straight to our booking system for confirmation.
+            Get an estimate in a few minutes, then book when it works for you.
+            We confirm the appointment after we review your request.
           </p>
           <Link href="/book" className="btn-primary mt-8 inline-flex">
-            Open quote calculator
+            Get a free quote
           </Link>
         </Reveal>
       </div>

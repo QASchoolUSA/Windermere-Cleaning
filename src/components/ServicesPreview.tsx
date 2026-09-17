@@ -14,11 +14,11 @@ export function ServicesPreview() {
             Services
           </p>
           <h2 className="mt-3 max-w-2xl font-display text-4xl text-navy md:text-5xl">
-            Cleaning crafted for Windermere homes
+            Cleaning for Windermere homes and estates
           </h2>
           <p className="mt-4 max-w-xl text-muted">
-            From weekly estate care to post-construction resets—each service is
-            scoped for high-value finishes and discreet service.
+            From weekly house care to post-construction resets—each visit is
+            scoped for your finishes and scheduled with discretion.
           </p>
         </Reveal>
 

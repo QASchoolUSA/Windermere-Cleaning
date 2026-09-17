@@ -9,7 +9,7 @@ export function WhyUs() {
           <div className="relative aspect-[4/5] overflow-hidden">
             <Image
               src="/images/why-us.jpg"
-              alt="Refined interior details reflecting discreet luxury cleaning standards"
+              alt="Quiet living room corner with soft natural light"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
@@ -21,17 +21,17 @@ export function WhyUs() {
             Why Windermere Cleaning
           </p>
           <h2 className="mt-3 font-display text-4xl text-navy md:text-5xl">
-            Quiet professionalism for high-value homes
+            Careful work for homes that matter to you
           </h2>
           <p className="mt-5 text-[1.05rem] leading-relaxed text-muted">
-            Windermere properties deserve more than a rushed checklist. We
-            schedule with discretion, respect premium materials, and leave homes
-            settled—not staged with cluttered marketing promises.
+            Windermere homes are not a place for a rushed pass-through. We
+            schedule quietly, treat stone and wood with care, and leave the
+            house settled—without overselling the visit.
           </p>
           <ul className="mt-8 space-y-4 text-navy">
             {[
-              "Detail-minded care for stone, wood, and designer fixtures",
-              "Clear quotes online—then book when you’re ready",
+              "Careful handling of stone, wood, and designer fixtures",
+              "Clear quotes online—book when you are ready",
               "Local focus: Windermere and nearby Orange County",
             ].map((item) => (
               <li key={item} className="flex gap-3 text-[0.95rem]">

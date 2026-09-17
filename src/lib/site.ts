@@ -18,9 +18,9 @@ function resolveSiteUrl(): string {
 export const siteConfig = {
   name: "Windermere Cleaning",
   legalName: "Windermere Cleaning",
-  tagline: "Discreet estate care for Windermere homes",
+  tagline: "Quiet, careful cleaning for Windermere homes",
   description:
-    "Luxury house cleaning, deep cleaning, move-in/out, post-construction, and event cleaning in Windermere, FL. Get a free quote and book online.",
+    "House cleaning, deep cleaning, move-in/out, post-construction, and after-event cleaning in Windermere, FL. Free online quote—book when you are ready.",
   url: resolveSiteUrl(),
   locale: "en_US",
   phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || "",

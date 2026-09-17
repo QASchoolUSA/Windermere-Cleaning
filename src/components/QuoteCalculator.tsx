@@ -102,7 +102,7 @@ export function QuoteCalculator({
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[color:var(--line)] pb-6">
         <div>
           <p className="text-[0.7rem] uppercase tracking-[0.16em] text-brass">
-            Quote atelier
+            Free quote
           </p>
           <h1 className="mt-2 font-display text-3xl text-navy md:text-4xl">
             Free cleaning quote

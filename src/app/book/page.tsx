@@ -30,7 +30,7 @@ export default async function BookPage({
       <div className="absolute inset-0 -z-10">
         <Image
           src="/images/book-atelier.jpg"
-          alt="Calm luxury interior setting for the Windermere Cleaning quote atelier"
+          alt="Quiet living room used as the backdrop for our online quote form"
           fill
           priority
           sizes="100vw"

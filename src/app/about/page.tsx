@@ -8,7 +8,7 @@ import { siteConfig } from "@/lib/site";
 export const metadata: Metadata = createPageMetadata({
   title: "About Windermere Cleaning",
   description:
-    "Windermere Cleaning is a luxury residential cleaning company serving Windermere, FL and nearby Orange County. Learn who we are and how booking works.",
+    "Windermere Cleaning provides discreet residential cleaning for Windermere, FL and nearby Orange County. Learn who we are and how to book.",
   path: "/about",
   image: "/images/why-us.jpg",
   keywords: [
@@ -29,16 +29,15 @@ export default function AboutPage() {
             {siteConfig.name}
           </h1>
           <p className="mt-5 text-lg leading-relaxed text-muted">
-            {siteConfig.name} provides professional residential cleaning for
-            Windermere, Florida and neighboring Orange County communities. We
-            focus on discreet service for high-value homes—clear online quotes,
-            careful workmanship, and bookings that flow into our scheduling
-            system for confirmation.
+            {siteConfig.name} cleans homes in Windermere, Florida and nearby
+            Orange County. We keep the work discreet: clear online quotes,
+            careful handling of finishes, and confirmation once we review your
+            booking request.
           </p>
           <p className="mt-4 leading-relaxed text-muted">
-            Whether you need weekly house cleaning, a deep reset, move-in or
-            move-out care, post-construction cleanup, or help after a
-            celebration, we scope the work to your property and timeline.
+            Weekly house cleaning, a deep reset, move-in or move-out care,
+            post-construction cleanup, or help after a celebration—we match the
+            visit to your property and timeline.
           </p>
           <Link href="/book" className="btn-primary mt-8 inline-flex">
             Get a free quote
@@ -48,7 +47,7 @@ export default function AboutPage() {
           <div className="relative aspect-[4/5] overflow-hidden">
             <Image
               src="/images/why-us.jpg"
-              alt="Interior detail representing Windermere Cleaning’s refined approach"
+              alt="Soft interior light in a Windermere living space"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
