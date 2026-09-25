@@ -71,6 +71,46 @@ export default function ServicesPage() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal className="mt-16 border-t border-[color:var(--line)] pt-12">
+          <h2 className="font-display text-3xl text-navy">
+            Local guides and next steps
+          </h2>
+          <p className="mt-3 max-w-2xl text-muted">
+            Pair a service page with practical Windermere checklists, then
+            request a quote when you are ready.
+          </p>
+          <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm">
+            <li>
+              <Link href="/guides" className="link-underline text-navy">
+                All cleaning guides
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/guides/move-out-cleaning-checklist-windermere"
+                className="link-underline text-navy"
+              >
+                Move-out checklist
+              </Link>
+            </li>
+            <li>
+              <Link href="/service-area" className="link-underline text-navy">
+                Service area
+              </Link>
+            </li>
+            <li>
+              <Link href="/about" className="link-underline text-navy">
+                About us
+              </Link>
+            </li>
+            <li>
+              <Link href="/book" className="link-underline text-brass">
+                Get a free quote
+              </Link>
+            </li>
+          </ul>
+        </Reveal>
       </section>
     </div>
   );

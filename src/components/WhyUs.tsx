@@ -49,7 +49,15 @@ export function WhyUs() {
             >
               Windermere move-out cleaning checklist
             </Link>{" "}
-            for deposit-ready rooms.
+            for deposit-ready rooms. Browse all{" "}
+            <Link href="/guides" className="link-underline text-navy">
+              cleaning guides
+            </Link>{" "}
+            or learn{" "}
+            <Link href="/about" className="link-underline text-navy">
+              about Windermere Cleaning
+            </Link>
+            .
           </p>
         </Reveal>
       </div>
