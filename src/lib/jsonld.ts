@@ -98,3 +98,74 @@ export function breadcrumbJsonLd(
     })),
   };
 }
+
+export function articleJsonLd(args: {
+  headline: string;
+  description: string;
+  url: string;
+  datePublished: string;
+  dateModified: string;
+  image?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: args.headline,
+    description: args.description,
+    image: args.image ?? absoluteUrl("/og/default.jpg"),
+    datePublished: args.datePublished,
+    dateModified: args.dateModified,
+    author: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      url: absoluteUrl("/"),
+    },
+    publisher: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      logo: {
+        "@type": "ImageObject",
+        url: absoluteUrl("/og/default.jpg"),
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": args.url,
+    },
+    about: [
+      {
+        "@type": "Service",
+        name: "Move Out / Move In Cleaning",
+        url: absoluteUrl("/services/move-out-move-in-cleaning"),
+      },
+      {
+        "@type": "City",
+        name: "Windermere",
+        containedInPlace: { "@type": "State", name: "Florida" },
+      },
+      {
+        "@type": "Place",
+        name: "Dr. Phillips",
+      },
+    ],
+  };
+}
+
+export function howToJsonLd(args: {
+  name: string;
+  description: string;
+  steps: { name: string; text: string }[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: args.name,
+    description: args.description,
+    step: args.steps.map((step, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: step.name,
+      text: step.text,
+    })),
+  };
+}

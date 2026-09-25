@@ -32,7 +32,28 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="md:col-span-4">
+        <div className="md:col-span-2">
+          <p className="text-[0.7rem] uppercase tracking-[0.16em] text-brass">
+            Guides
+          </p>
+          <ul className="mt-4 space-y-2">
+            <li>
+              <Link href="/guides" className="link-underline text-sm text-limestone/90">
+                All guides
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/guides/move-out-cleaning-checklist-windermere"
+                className="link-underline text-sm text-limestone/90"
+              >
+                Move-out checklist
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className="md:col-span-2">
           <p className="text-[0.7rem] uppercase tracking-[0.16em] text-brass">
             Contact
           </p>
