@@ -16,6 +16,20 @@ export function QuoteCta() {
           <Link href="/book" className="btn-primary mt-8 inline-flex">
             Get a free quote
           </Link>
+          <p className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-muted">
+            <Link href="/services" className="link-underline text-navy">
+              Services
+            </Link>
+            <Link href="/guides" className="link-underline text-navy">
+              Guides
+            </Link>
+            <Link href="/service-area" className="link-underline text-navy">
+              Service area
+            </Link>
+            <Link href="/about" className="link-underline text-navy">
+              About
+            </Link>
+          </p>
         </Reveal>
       </div>
     </section>

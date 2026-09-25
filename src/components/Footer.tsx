@@ -55,9 +55,24 @@ export function Footer() {
 
         <div className="md:col-span-2">
           <p className="text-[0.7rem] uppercase tracking-[0.16em] text-brass">
-            Contact
+            Company
           </p>
           <ul className="mt-4 space-y-2 text-sm text-limestone/90">
+            <li>
+              <Link href="/about" className="link-underline">
+                About
+              </Link>
+            </li>
+            <li>
+              <Link href="/service-area" className="link-underline">
+                Service area
+              </Link>
+            </li>
+            <li>
+              <Link href="/book" className="link-underline">
+                Get a free quote
+              </Link>
+            </li>
             <li>Windermere, FL {siteConfig.address.postalCode}</li>
             <li>
               <a className="link-underline" href={`mailto:${siteConfig.email}`}>
@@ -71,16 +86,6 @@ export function Footer() {
                 </a>
               </li>
             ) : null}
-            <li>
-              <Link href="/book" className="link-underline">
-                Get a free quote
-              </Link>
-            </li>
-            <li>
-              <Link href="/service-area" className="link-underline">
-                Service area
-              </Link>
-            </li>
           </ul>
         </div>
       </div>

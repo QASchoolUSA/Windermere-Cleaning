@@ -132,6 +132,34 @@ export default async function ServiceDetailPage({ params }: Props) {
           </aside>
         </div>
 
+        <div className="container-site pb-8">
+          <h2 className="font-display text-2xl text-navy">More Windermere services</h2>
+          <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+            <li>
+              <Link href="/services" className="link-underline text-navy">
+                All services
+              </Link>
+            </li>
+            {services
+              .filter((other) => other.slug !== service.slug)
+              .map((other) => (
+                <li key={other.slug}>
+                  <Link
+                    href={`/services/${other.slug}`}
+                    className="link-underline text-navy"
+                  >
+                    {other.name}
+                  </Link>
+                </li>
+              ))}
+            <li>
+              <Link href="/guides" className="link-underline text-navy">
+                Guides
+              </Link>
+            </li>
+          </ul>
+        </div>
+
         <Faq items={service.faqs} title={`${service.name} FAQs`} />
       </article>
     </>

@@ -76,6 +76,24 @@ export default function GuidesIndexPage() {
               </Reveal>
             ))}
           </ul>
+
+          <Reveal className="mt-14 border-t border-[color:var(--line)] pt-10">
+            <p className="text-sm text-muted">
+              Need a cleaner for the visit itself?{" "}
+              <Link href="/services" className="link-underline text-navy">
+                Browse services
+              </Link>
+              , check our{" "}
+              <Link href="/service-area" className="link-underline text-navy">
+                service area
+              </Link>
+              , or{" "}
+              <Link href="/book" className="link-underline text-brass">
+                get a free quote
+              </Link>
+              .
+            </p>
+          </Reveal>
         </section>
       </div>
     </>
