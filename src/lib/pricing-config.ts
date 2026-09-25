@@ -2,6 +2,7 @@ import { readEnv } from "./env";
 import {
   DEFAULT_PRICING_CONFIG,
   isUsablePricingConfig,
+  withLocalWizardFields,
   type PricingConfig,
 } from "./pricing";
 
@@ -39,7 +40,7 @@ export async function getPricingConfig(): Promise<PricingConfig> {
 
     const body = (await res.json()) as { config?: unknown };
     return isUsablePricingConfig(body.config)
-      ? body.config
+      ? withLocalWizardFields(body.config)
       : DEFAULT_PRICING_CONFIG;
   } catch {
     return DEFAULT_PRICING_CONFIG;
