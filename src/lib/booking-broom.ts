@@ -82,6 +82,9 @@ function toBookingBroomBody(
       size_label: pricing.sqftMultipliers.find(
         (band) => band.key === payload.quote.sqftBand,
       )?.label,
+      square_feet: pricing.sqftMultipliers.find(
+        (band) => band.key === payload.quote.sqftBand,
+      )?.value,
       home_type: payload.quote.propertyType,
     },
     quote: {
@@ -89,10 +92,11 @@ function toBookingBroomBody(
       currency: "USD",
       frequency: payload.quote.frequency,
       add_ons: payload.quote.addons.map((id) => {
-        const addon = pricing.addonCents.find((a) => a.key === id);
+        const key = id === "windows" ? "windows-interior" : id;
+        const addon = pricing.addOns.find((a) => a.key === key);
         return {
           label: addon?.label ?? id,
-          price: addon ? addon.cents / 100 : undefined,
+          price: addon?.price,
         };
       }),
       payment_terms: "Due after cleaning is complete",
