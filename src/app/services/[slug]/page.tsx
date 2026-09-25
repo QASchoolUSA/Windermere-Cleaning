@@ -87,6 +87,18 @@ export default async function ServiceDetailPage({ params }: Props) {
             <p className="mt-5 text-lg leading-relaxed text-muted">
               {service.description}
             </p>
+            {service.slug === "move-out-move-in-cleaning" ? (
+              <p className="mt-5 leading-relaxed text-muted">
+                Planning a Windermere or Dr. Phillips turnover? Read the{" "}
+                <Link
+                  href="/guides/move-out-cleaning-checklist-windermere"
+                  className="link-underline text-navy"
+                >
+                  move-out cleaning checklist
+                </Link>{" "}
+                for room-by-room deposit photo tips and a keys-due timeline.
+              </p>
+            ) : null}
             <h3 className="mt-10 font-display text-2xl text-navy">
               What’s included
             </h3>

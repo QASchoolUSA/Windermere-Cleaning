@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Reveal } from "./Reveal";
 
 export function WhyUs() {
@@ -40,6 +41,16 @@ export function WhyUs() {
               </li>
             ))}
           </ul>
+          <p className="mt-8 text-sm text-muted">
+            Moving soon? Use our{" "}
+            <Link
+              href="/guides/move-out-cleaning-checklist-windermere"
+              className="link-underline text-navy"
+            >
+              Windermere move-out cleaning checklist
+            </Link>{" "}
+            for deposit-ready rooms.
+          </p>
         </Reveal>
       </div>
     </section>

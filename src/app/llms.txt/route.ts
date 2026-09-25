@@ -25,6 +25,8 @@ ${siteConfig.serviceArea.join(", ")}
 ## Key pages
 - Home: ${base}/
 - Services: ${base}/services
+- Guides: ${base}/guides
+- Move-out cleaning checklist: ${base}/guides/move-out-cleaning-checklist-windermere
 - Service area: ${base}/service-area
 - About: ${base}/about
 - Free quote & book: ${base}/book
