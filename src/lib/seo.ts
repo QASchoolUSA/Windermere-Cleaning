@@ -5,8 +5,9 @@ const defaultOg = "/og/default.jpg";
 
 export function absoluteUrl(path = "/"): string {
   const base = siteConfig.url.replace(/\/$/, "");
+  if (!path || path === "/") return base;
   const p = path.startsWith("/") ? path : `/${path}`;
-  return `${base}${p}`;
+  return `${base}${p.replace(/\/$/, "")}`;
 }
 
 export function createPageMetadata({

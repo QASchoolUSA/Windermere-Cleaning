@@ -27,6 +27,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: `${base}/sitemap.xml`,
-    host: base,
+    host: new URL(siteConfig.url).hostname,
   };
 }

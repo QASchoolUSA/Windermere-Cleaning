@@ -22,7 +22,7 @@ export function BookingForm({
   onBack: () => void;
 }) {
   const softLead = useRef<ReturnType<typeof createSoftLeadTracker> | null>(null);
-  if (!softLead.current) {
+  if (softLead.current == null) {
     softLead.current = createSoftLeadTracker();
   }
 

@@ -47,6 +47,7 @@ export function QuoteCalculator({
 
   useEffect(() => {
     if (initialService && services.some((s) => s.slug === initialService)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setInputs((prev) => ({
         ...prev,
         service: initialService as ServiceSlug,

@@ -32,6 +32,26 @@ export const siteConfig = {
     postalCode: "34786",
     addressCountry: "US",
   },
+  geo: {
+    latitude: 28.4958,
+    longitude: -81.5348,
+  },
+  openingHours: [
+    {
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
+      opens: "08:00",
+      closes: "18:00",
+    },
+  ],
+  priceRange: "$$",
+  currenciesAccepted: "USD",
   serviceArea: [
     "Windermere",
     "Lake Butler",

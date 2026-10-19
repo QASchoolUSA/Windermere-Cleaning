@@ -42,6 +42,10 @@
 		{
 			"pattern": "windermerecleaning.com",
 			"custom_domain": true
+		},
+		{
+			"pattern": "www.windermerecleaning.com",
+			"custom_domain": true
 		}
 	]
 }

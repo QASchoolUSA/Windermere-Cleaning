@@ -3,9 +3,11 @@ import { services } from "@/lib/content/services";
 import { guides } from "@/lib/guides";
 import { siteConfig } from "@/lib/site";
 
+// Stable content release date for static pages. Update when content changes.
+const CONTENT_LAST_MODIFIED = new Date("2026-09-25T00:00:00.000Z");
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteConfig.url.replace(/\/$/, "");
-  const now = new Date();
 
   const staticRoutes = [
     "",
@@ -15,22 +17,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/book",
   ].map((path) => ({
-    url: `${base}${path || "/"}`,
-    lastModified: now,
-    changeFrequency: "weekly" as const,
+    url: path ? `${base}${path}` : base,
+    lastModified: CONTENT_LAST_MODIFIED,
+    changeFrequency: path === "" ? ("weekly" as const) : ("monthly" as const),
     priority: path === "" ? 1 : path === "/book" ? 0.9 : 0.8,
   }));
 
   const serviceRoutes = services.map((s) => ({
     url: `${base}/services/${s.slug}`,
-    lastModified: now,
+    lastModified: CONTENT_LAST_MODIFIED,
     changeFrequency: "weekly" as const,
     priority: 0.85,
   }));
 
   const guideRoutes = guides.map((g) => ({
     url: `${base}/guides/${g.slug}`,
-    lastModified: now,
+    lastModified: new Date(`${g.dateModified}T00:00:00.000Z`),
     changeFrequency: "monthly" as const,
     priority: 0.75,
   }));

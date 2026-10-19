@@ -3,13 +3,15 @@ import { absoluteUrl } from "@/lib/seo";
 import { services } from "@/lib/content/services";
 
 export function localBusinessJsonLd() {
+  const rootUrl = absoluteUrl("/");
   return {
     "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    "@id": `${absoluteUrl("/")}#business`,
+    "@type": ["HomeAndConstructionBusiness", "CleaningService"],
+    "@id": `${rootUrl}#business`,
     name: siteConfig.name,
+    legalName: siteConfig.legalName,
     description: siteConfig.description,
-    url: absoluteUrl("/"),
+    url: rootUrl,
     image: absoluteUrl("/og/default.jpg"),
     telephone: siteConfig.phone || undefined,
     email: siteConfig.email,
@@ -20,11 +22,24 @@ export function localBusinessJsonLd() {
       postalCode: siteConfig.address.postalCode,
       addressCountry: siteConfig.address.addressCountry,
     },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: siteConfig.geo.latitude,
+      longitude: siteConfig.geo.longitude,
+    },
+    openingHoursSpecification: siteConfig.openingHours.map((h) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: h.dayOfWeek,
+      opens: h.opens,
+      closes: h.closes,
+    })),
     areaServed: siteConfig.serviceArea.map((name) => ({
       "@type": "City",
       name,
     })),
-    priceRange: "$$",
+    priceRange: siteConfig.priceRange,
+    paymentAccepted: ["Cash", "Credit Card", "Debit Card"],
+    currenciesAccepted: siteConfig.currenciesAccepted,
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Cleaning services",
