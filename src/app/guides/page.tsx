@@ -54,6 +54,26 @@ export default function GuidesIndexPage() {
               Local checklists and how-tos from Windermere Cleaning—built for
               deposit walkthroughs, empty-home resets, and Orange County moves.
             </p>
+            <div className="mt-6 max-w-3xl space-y-4 text-muted leading-relaxed">
+              <p>
+                These guides are written for Windermere and nearby lake-community
+                neighborhoods—Butler Chain estates, Isleworth-adjacent streets,
+                Keene&apos;s Pointe, and the quieter cul-de-sacs off Conroy-Windermere
+                Road—where open floor plans, outdoor living spaces, and HOA timing
+                shape how a clean should be scoped. We focus on what homeowners,
+                sellers, and property managers actually need before a walkthrough:
+                room-by-room priorities, humidity-aware timing, and what usually
+                trips deposit or listing inspections.
+              </p>
+              <p>
+                Expect practical coverage of move-out and vacancy resets, recurring
+                house-care cadence in humid Orange County seasons, and when a
+                standard visit should upgrade to a deeper reset. Each guide links
+                back to the matching service page and our free online quote so you
+                can move from research to a confirmed plan without guessing at
+                scope.
+              </p>
+            </div>
           </Reveal>
 
           <ul className="mt-14 divide-y divide-[color:var(--line)] border-y border-[color:var(--line)]">

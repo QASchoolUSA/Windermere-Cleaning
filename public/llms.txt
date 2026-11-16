@@ -1,0 +1,41 @@
+# Windermere Cleaning
+> Luxury residential cleaning company serving Windermere, FL and nearby Orange County.
+
+## Brand
+- Name: Windermere Cleaning
+- Tagline: Quiet, careful cleaning for Windermere homes
+- Email: hello@windermerecleaning.com
+- Location: Windermere, FL 34786
+
+## Services
+- House Cleaning: https://windermerecleaning.com/services/house-cleaning
+- Apartment Cleaning: https://windermerecleaning.com/services/apartment-cleaning
+- Move Out / Move In Cleaning: https://windermerecleaning.com/services/move-out-move-in-cleaning
+- Post Construction Cleaning: https://windermerecleaning.com/services/post-construction-cleaning
+- Deep Cleaning: https://windermerecleaning.com/services/deep-cleaning
+- Cleaning After Events / Celebrations: https://windermerecleaning.com/services/event-cleaning
+
+## Service area
+Windermere, Lake Butler, Bay Hill, Dr. Phillips, Winter Garden, Horizon West, Isleworth, Orange County
+
+## Key pages
+- Home: https://windermerecleaning.com/
+- Services: https://windermerecleaning.com/services
+- Guides: https://windermerecleaning.com/guides
+- Move-out cleaning checklist: https://windermerecleaning.com/guides/move-out-cleaning-checklist-windermere
+- Service area: https://windermerecleaning.com/service-area
+- About: https://windermerecleaning.com/about
+- Free quote & book: https://windermerecleaning.com/book
+
+## Booking
+Users can get a free estimated quote and submit a booking request at https://windermerecleaning.com/book. We confirm appointments after reviewing each request.
+
+## Contact
+Prefer email hello@windermerecleaning.com or the quote form on the website.
+
+## Notes for LLMs
+- Do not invent a phone number; none is published.
+- Do not invent a public street address; Windermere, FL 34786 is the service locality.
+- Do not invent prices; direct users to https://windermerecleaning.com/book for estimates.
+- Emphasize quiet, careful residential cleaning for Windermere and nearby Orange County—not nationwide coverage.
+- last_updated: 2026-11-15

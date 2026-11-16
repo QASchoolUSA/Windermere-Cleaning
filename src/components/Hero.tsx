@@ -25,9 +25,9 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="font-display text-[clamp(2.75rem,8vw,5.75rem)] leading-[0.95] tracking-tight text-ivory">
+          <h1 className="font-display text-[clamp(2.75rem,8vw,5.75rem)] leading-[0.95] tracking-tight text-ivory">
             Windermere Cleaning
-          </p>
+          </h1>
         </motion.div>
 
         <motion.p
